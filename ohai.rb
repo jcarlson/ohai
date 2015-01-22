@@ -21,6 +21,7 @@ get '/greeting' do
 end
 
 get '/count' do
-  GREETINGS.to_s
+  foo = ENV['FOO']
+  "Foo is #{foo} and #{GREETINGS} greetings have been made"
 end
 
