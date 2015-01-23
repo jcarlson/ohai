@@ -11,17 +11,16 @@ GREETS = [
   'my name is inigo montoya. you killed my father. prepare to die'
 ]
 
-# redis = Redis.new(host: ENV['redis_host'], port: ENV['redis-port'])
-
-GREETINGS = 0
+redis = Redis.new(host: ENV['redis_host'], port: ENV['redis_port'])
 
 get '/greeting' do
-  GREETINGS += 1
+  redis.incr('ohai')
   GREETS.sample
 end
 
 get '/count' do
   foo = ENV['FOO']
-  "Foo is #{foo} and #{GREETINGS} greetings have been made"
+  count = redis.get('ohai')
+  "Foo is #{foo} and #{count} greetings have been made"
 end
 
