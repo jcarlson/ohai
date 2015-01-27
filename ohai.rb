@@ -2,16 +2,25 @@ require 'dotenv'
 require 'redis'
 require 'sinatra'
 
+require 'byebug'
+require 'pry-byebug'
+
 Dotenv.load
 
+# TODO: Improve configuration such that it works in and out of container
+Byebug.start_server '0.0.0.0', 3001
+redis = Redis.new(host: 'redis', port: '6379')
+
 GREETS = [
-  'ohai, stranger!',
-  'lovely day for it, eh?',
-  'good evening, guvnah',
-  'my name is inigo montoya. you killed my father. prepare to die'
+  'Ohai, stranger!',
+  'Lovely day for it, eh?',
+  'Good evening, guvnah.',
+  'My name is inigo montoya. You killed my father. Prepare to die.'
 ]
 
-redis = Redis.new(host: ENV['redis_host'], port: ENV['redis_port'])
+get '/' do
+  'server is up'
+end
 
 get '/greeting' do
   redis.incr('ohai')
@@ -19,8 +28,7 @@ get '/greeting' do
 end
 
 get '/count' do
-  foo = ENV['FOO']
   count = redis.get('ohai')
-  "Foo is #{foo} and #{count} greetings have been made"
+  "#{count || 0} greetings have been made"
 end
 

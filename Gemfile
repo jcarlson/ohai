@@ -5,3 +5,5 @@ gem 'dotenv'
 gem 'redis'
 gem 'sinatra'
 
+gem 'byebug'
+gem 'pry-byebug'

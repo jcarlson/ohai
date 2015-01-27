@@ -1,0 +1,12 @@
+redis:
+  image: redis:2.8.19
+
+web:
+  build: .
+  ports:
+    - "3000:3000"
+    - "3001"
+  links:
+    - "redis:redis"
+  volumes:
+   - .:/usr/src/app
